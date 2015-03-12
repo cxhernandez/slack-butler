@@ -1,0 +1,15 @@
+{
+  "name": "slack-butler",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Carlos Hernandez <cxh@stanford.edu>",
+  "description": "Login bot for slack",
+  "dependencies": {
+    "body-parser": "^1.x.x",
+    "express": "^4.x.x",
+    "request": "^2.x.x"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
