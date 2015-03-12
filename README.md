@@ -1,5 +1,5 @@
 # slack-butler
-Easily deployable webapp that automatically invites users to your slack team
+An easily deployable webapp that automatically invites users to your slack team
 
 Use Case
 ---
