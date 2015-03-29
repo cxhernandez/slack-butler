@@ -26,15 +26,18 @@ app.get('/', function (req, res) {
                 '<link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">' +
                 '</head>' +
                 '<div class="container" >' +
+                '<h1 class="form-signin-heading" align="center">Join the ' + prettyTeamName + '<br>Slack Team</h1>' +
                 '<form class="form-signin" action="/" method="post">'+
-                   '<h2 class="form-signin-heading">Join ' + slackTeamName + ' Slack today.</h2>' +
+                   '<h4 class="form-signin-heading">Please fill in your information: </h4>' +
                    '<label for="userName" class="sr-only">Username</label>'+
                    '<input type="text" name="userName" id="userName" class="form-control" placeholder="username" required="" autofocus="">' +
+                   '<br>' +
                    '<label for="email" class="sr-only">Email address</label>'+
                    '<input type="text" name="email" id="email" class="form-control" placeholder="email address" required="" autofocus="">' +
+                   '<br>' +
                    '<label for="secret" class="sr-only">Secret Key</label>'+
                    '<input type="password" name="secret" id="secret" class="form-control" placeholder="secret key" required="" autofocus="">' +
-                  '<button class="btn btn-lg btn-primary btn-block" type="submit">Submit Request</button>' +
+                  '<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>' +
                 '</form>' +
                 '</div>';
 
