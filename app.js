@@ -3,74 +3,62 @@ var bodyParser = require('body-parser');
 var request = require('request');
 
 var app = express();
+var engine = require('ejs-locals')
 var port = process.env.PORT || 3000;
 
 var slackTeamName = process.env.TEAM_NAME
 var prettyTeamName = process.env.PRETTY_TEAM_NAME
 var token = process.env.SLACK_API_TOKEN;
-var secret = process.env.SECRET_KEY;
+var recaptchaKey = process.env.RECAPTCHA_KEY;
 var channelID = process.env.CHANNEL_ID;
 var botName = process.env.BOT_NAME;
 var icon = process.env.BOT_ICON;
 
+
+var recaptcha_async = require('recaptcha-async')
+
 app.use(bodyParser());
+app.engine('ejs', engine);
+app.set('view engine', 'ejs');
 
-app.get('/', function (req, res) { 
+app.get('/', function (req, res, next) {
 
-    var html =  '<head>' +
-                '<meta charset="utf-8">' +
-                '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
-                '<meta name="viewport" content="width=device-width, initial-scale=1">' + 
-                '<title>Sign up for the ' + prettyTeamName +  ' Slack Team</title>' +
-                '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' +
-                '<link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">' +
-                '</head>' +
-                '<div class="container" >' +
-                '<h1 class="form-signin-heading" align="center">Join the ' + prettyTeamName + '<br>Slack Team</h1>' +
-                '<form class="form-signin" action="/" method="post">'+
-                   '<h4 class="form-signin-heading">Please fill in your information: </h4>' +
-                   '<label for="userName" class="sr-only">Username</label>'+
-                   '<input type="text" name="userName" id="userName" class="form-control" placeholder="Username" required="" autofocus="">' +
-                   '<br>' +
-                   '<label for="email" class="sr-only">Email Address</label>'+
-                   '<input type="text" name="email" id="email" class="form-control" placeholder="Email" required="" autofocus="">' +
-                   '<br>' +
-                   '<label for="secret" class="sr-only">Secret Key</label>'+
-                   '<input type="password" name="secret" id="secret" class="form-control" placeholder="Secret Key" required="" autofocus="">' +
-                  '<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>' +
-                '</form>' +
-                '</div>';
-
-    res.send(html);
+    res.render('index', {prettyTeamName: prettyTeamName
+                        });
 
 });
 
-app.post('/', function(req, res){
-    var userName = req.body.userName;
-    var email = req.body.email;
-    var key = req.body.secret;
+app.post('/', function(req, res, next){
+  var recaptcha = new recaptcha_async.reCaptcha();
 
-    var message;
-    var color = 'red';
+  var userName = req.body.userName;
+  var email = req.body.email;
+  var key = req.body.secret;
 
-    if (secret == key ) {
-               
+  var message;
+  var color = 'red';
+
+  recaptcha.on('data', function (recaptcha_response) {
+    console.log(recaptcha_response.is_valid);
+    console.log(next);
+    if (false) {
+
         request({
-            uri: 'https://' + slackTeamName + '.slack.com/api/users.admin.invite?' + 
-                 't=' + (new Date).getTime() + 
-                 '&token=' + token + 
+            uri: 'https://' + slackTeamName + '.slack.com/api/users.admin.invite?' +
+                 't=' + (new Date).getTime() +
+                 '&token=' + token +
                  '&email=' + encodeURIComponent(email) +
                  '&set_active=' + encodeURIComponent('true') +
                  '&_attempts=' + "1",
             method: 'post'
         });
 
-        message = 'Thanks ' + userName + '! You should receive an email shortly.'; 
+        message = 'Thanks ' + userName + '! You should receive an email shortly.';
         color = 'green';
 
         request({
-            uri:  'https://slack.com/api/chat.postMessage?' + 
-                  '&token=' + token + 
+            uri:  'https://slack.com/api/chat.postMessage?' +
+                  '&token=' + token +
                   '&channel=' + encodeURIComponent(channelID) +
                   '&username=' + encodeURIComponent(botName) +
                   '&text=' + encodeURIComponent(userName + ' has requested to join the ' + prettyTeamName + ' team.') +
@@ -80,23 +68,26 @@ app.post('/', function(req, res){
        });
 
     } else {
-        message = 'Sorry, your secret key was incorrect.';
+        message = 'Sorry, you answered the recaptcha incorrectly.';
         color = 'red';
     };
-    var html =  '<head>' +
-                '<meta charset="utf-8">' +
-                '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
-                '<meta name="viewport" content="width=device-width, initial-scale=1">' + 
-                '<title>Folding@home Slack</title>' +
-                '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' +
-                '<link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">' +
-                '</head>' +
-                '<div class="container" >' +
-                '<h2 style="color:' + color + ';">' + message + '</h2>' +
-                '</div>';
 
-    res.send(html)
+    res.render('response', {
+                          prettyTeamName: prettyTeamName,
+                          message: message,
+                          color: color
+              });
+
+  });
+
+  recaptcha.checkAnswer(recaptchaKey,
+                  req.connection.remoteAddress,
+                  req.body.recaptcha_challenge_field,
+                  req.body.recaptcha_response_field);
+
 });
+
+
 
 app.listen(port, function () {
     console.log('Slack bot listening on port ' + port);
