@@ -9,7 +9,7 @@ var teamName = process.env.TEAM_NAME
 var token = process.env.SLACK_API_TOKEN;
 var secret = process.env.SECRET_KEY;
 var channelID = process.env.CHANNEL_ID;
-var botName = 'butler-bot'
+var botName = process.env.BOT_NAME;
 
 app.use(bodyParser());
 
