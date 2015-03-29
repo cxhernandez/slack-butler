@@ -69,7 +69,7 @@ app.post('/', function(req, res){
                   '&token=' + token + 
                   '&channel=' + encodeURIComponent(channelID) +
                   '&username=' + encodeURIComponent(botName) +
-                  '&text=' + encodeURIComponent(userName + ' has requested to join the' + teamName + 'team.') +
+                  '&text=' + encodeURIComponent(userName + ' has requested to join the ' + teamName + ' team.') +
                   '&icon_emoji=' + encodeURIComponent(icon),
             method: 'post',
 
