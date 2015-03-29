@@ -5,7 +5,8 @@ var request = require('request');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var teamName = process.env.TEAM_NAME
+var slackTeamName = process.env.TEAM_NAME
+var prettyTeamName = process.env.PRETTY_TEAM_NAME
 var token = process.env.SLACK_API_TOKEN;
 var secret = process.env.SECRET_KEY;
 var channelID = process.env.CHANNEL_ID;
@@ -20,13 +21,13 @@ app.get('/', function (req, res) {
                 '<meta charset="utf-8">' +
                 '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
                 '<meta name="viewport" content="width=device-width, initial-scale=1">' + 
-                '<title>' + teamName +  ' slack signup</title>' +
+                '<title>Sign up for the ' + prettyTeamName +  ' Slack Team</title>' +
                 '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' +
                 '<link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">' +
                 '</head>' +
                 '<div class="container" >' +
                 '<form class="form-signin" action="/" method="post">'+
-                   '<h2 class="form-signin-heading">' + teamName + ' slack</h2>' +
+                   '<h2 class="form-signin-heading">Join ' + slackTeamName + ' Slack today.</h2>' +
                    '<label for="userName" class="sr-only">Username</label>'+
                    '<input type="text" name="userName" id="userName" class="form-control" placeholder="username" required="" autofocus="">' +
                    '<label for="email" class="sr-only">Email address</label>'+
@@ -52,7 +53,7 @@ app.post('/', function(req, res){
     if (secret == key ) {
                
         request({
-            uri: 'https://' + teamName + '.slack.com/api/users.admin.invite?' + 
+            uri: 'https://' + slackTeamName + '.slack.com/api/users.admin.invite?' + 
                  't=' + (new Date).getTime() + 
                  '&token=' + token + 
                  '&email=' + encodeURIComponent(email) +
@@ -69,7 +70,7 @@ app.post('/', function(req, res){
                   '&token=' + token + 
                   '&channel=' + encodeURIComponent(channelID) +
                   '&username=' + encodeURIComponent(botName) +
-                  '&text=' + encodeURIComponent(userName + ' has requested to join the ' + teamName + ' team.') +
+                  '&text=' + encodeURIComponent(userName + ' has requested to join the ' + prettyTeamName + ' team.') +
                   '&icon_emoji=' + encodeURIComponent(icon),
             method: 'post',
 
