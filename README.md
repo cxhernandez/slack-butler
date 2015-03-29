@@ -33,6 +33,7 @@ you can execute the following commands:
 heroku create slack-butler
 heroku ps:scale web=1
 
+heroku config:add BOT_NAME=[insert name of the bot]
 heroku config:add SLACK_API_TOKEN=[insert api token]
 heroku config:add TEAM_NAME=[insert slack team name]
 heroku config:add CHANNEL_ID=[insert channel id] // channel where slack-butler will announce new users 
