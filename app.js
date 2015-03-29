@@ -39,9 +39,8 @@ app.post('/', function(req, res, next){
   var color = 'red';
 
   recaptcha.on('data', function (recaptcha_response) {
-    console.log(recaptcha_response.is_valid);
-    console.log(next);
-    if (false) {
+    
+    if (recaptcha_response.is_valid) {
 
         request({
             uri: 'https://' + slackTeamName + '.slack.com/api/users.admin.invite?' +
