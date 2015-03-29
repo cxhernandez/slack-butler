@@ -5,7 +5,8 @@ var request = require('request');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var teamName = process.env.TEAM_NAME
+var slackTeamName = process.env.TEAM_NAME
+var prettyTeamName = process.env.PRETTY_TEAM_NAME
 var token = process.env.SLACK_API_TOKEN;
 var secret = process.env.SECRET_KEY;
 var channelID = process.env.CHANNEL_ID;
@@ -20,20 +21,23 @@ app.get('/', function (req, res) {
                 '<meta charset="utf-8">' +
                 '<meta http-equiv="X-UA-Compatible" content="IE=edge">' +
                 '<meta name="viewport" content="width=device-width, initial-scale=1">' + 
-                '<title>' + teamName +  ' slack signup</title>' +
+                '<title>Sign up for the ' + prettyTeamName +  ' Slack Team</title>' +
                 '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' +
                 '<link rel="stylesheet" href="http://getbootstrap.com/examples/signin/signin.css">' +
                 '</head>' +
                 '<div class="container" >' +
+                '<h1 class="form-signin-heading" align="center">Join the ' + prettyTeamName + '<br>Slack Team</h1>' +
                 '<form class="form-signin" action="/" method="post">'+
-                   '<h2 class="form-signin-heading">' + teamName + ' slack</h2>' +
+                   '<h4 class="form-signin-heading">Please fill in your information: </h4>' +
                    '<label for="userName" class="sr-only">Username</label>'+
-                   '<input type="text" name="userName" id="userName" class="form-control" placeholder="username" required="" autofocus="">' +
-                   '<label for="email" class="sr-only">Email address</label>'+
-                   '<input type="text" name="email" id="email" class="form-control" placeholder="email address" required="" autofocus="">' +
+                   '<input type="text" name="userName" id="userName" class="form-control" placeholder="Username" required="" autofocus="">' +
+                   '<br>' +
+                   '<label for="email" class="sr-only">Email Address</label>'+
+                   '<input type="text" name="email" id="email" class="form-control" placeholder="Email" required="" autofocus="">' +
+                   '<br>' +
                    '<label for="secret" class="sr-only">Secret Key</label>'+
-                   '<input type="password" name="secret" id="secret" class="form-control" placeholder="secret key" required="" autofocus="">' +
-                  '<button class="btn btn-lg btn-primary btn-block" type="submit">Submit Request</button>' +
+                   '<input type="password" name="secret" id="secret" class="form-control" placeholder="Secret Key" required="" autofocus="">' +
+                  '<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>' +
                 '</form>' +
                 '</div>';
 
@@ -52,7 +56,7 @@ app.post('/', function(req, res){
     if (secret == key ) {
                
         request({
-            uri: 'https://' + teamName + '.slack.com/api/users.admin.invite?' + 
+            uri: 'https://' + slackTeamName + '.slack.com/api/users.admin.invite?' + 
                  't=' + (new Date).getTime() + 
                  '&token=' + token + 
                  '&email=' + encodeURIComponent(email) +
@@ -69,7 +73,7 @@ app.post('/', function(req, res){
                   '&token=' + token + 
                   '&channel=' + encodeURIComponent(channelID) +
                   '&username=' + encodeURIComponent(botName) +
-                  '&text=' + encodeURIComponent(userName + ' has requested to join the ' + teamName + ' team.') +
+                  '&text=' + encodeURIComponent(userName + ' has requested to join the ' + prettyTeamName + ' team.') +
                   '&icon_emoji=' + encodeURIComponent(icon),
             method: 'post',
 
