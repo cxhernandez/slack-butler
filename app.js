@@ -10,6 +10,7 @@ var token = process.env.SLACK_API_TOKEN;
 var secret = process.env.SECRET_KEY;
 var channelID = process.env.CHANNEL_ID;
 var botName = process.env.BOT_NAME;
+var icon = process.env.BOT_ICON;
 
 app.use(bodyParser());
 
@@ -69,7 +70,7 @@ app.post('/', function(req, res){
                   '&channel=' + encodeURIComponent(channelID) +
                   '&username=' + encodeURIComponent(botName) +
                   '&text=' + encodeURIComponent(userName + ' has requested to join the' + teamName + 'team.') +
-                  '&icon_emoji=' + encodeURIComponent(':fah:'),
+                  '&icon_emoji=' + encodeURIComponent(icon),
             method: 'post',
 
        });
