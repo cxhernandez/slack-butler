@@ -7,12 +7,12 @@ Use Case
 but it has the potential to become an even better community building tool.
 Unfortunately, slack does not let new users sign up for a team right out 
 of the box, but slack-butler offers you the ability host your own hassel-free signup page.
-As is, the signup page requires a user to provide a pre-determined 'secret key' to 
-prevent spamming, but future versions might include a CAPTCHA instead.
+As is, the signup page uses [Google reCAPTCHA](https://www.google.com/recaptcha) to prevent spamming.
 
 Inspiration
 ---
-Credit goes to [@levelsio](https://levels.io/), who [originally posted](https://levels.io/slack-typeform-auto-invite-sign-ups/) 
+Credit goes to [@levelsio](https://levels.io/), who 
+[originally posted](https://levels.io/slack-typeform-auto-invite-sign-ups/) 
 about hosting a slack signup page using [Typeform](http://www.typeform.com/) and uncovering some 
 undocumented API calls.
 
@@ -38,7 +38,7 @@ heroku config:add BOT_ICON=[insert slack emoji code]
 heroku config:add SLACK_API_TOKEN=[insert api token]
 heroku config:add TEAM_NAME=[insert slack team name]
 heroku config:add CHANNEL_ID=[insert channel id] // channel where slack-butler will announce new users 
-heroku config:add SECRET_KEY=[insert secret key] // completely arbitrary
+heroku config:add RECAPTCHA_KEY=[insert recaptcha api token]
 
 git push heroku master
 ```
