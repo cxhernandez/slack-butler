@@ -19,7 +19,7 @@ undocumented API calls.
 Things you'll need
 ---
  1. Admin priviledges on a slack team
- 1. [Slack API token](api.slack.com)
+ 1. [Slack API token](https://api.slack.com)
  1. [Google reCAPTCHA keys](https://developers.google.com/recaptcha) 
  1. [Heroku](https://www.heroku.com/) account
  1. [`heroku-toolbelt`](https://toolbelt.heroku.com/)
