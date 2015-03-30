@@ -3,7 +3,7 @@ An easily deployable webapp that automatically registers and invites users to yo
 
 Use Case
 ---
-[slack](https://slack.com/) is a great tool for team communication, 
+[Slack](https://slack.com/) is a great tool for team communication, 
 but it has the potential to become an even better community building tool.
 Unfortunately, slack does not let new users sign up for a team right out 
 of the box, but slack-butler offers you the ability host your own hassel-free signup page.
@@ -19,7 +19,8 @@ undocumented API calls.
 Things you'll need
 ---
  1. Admin priviledges on a slack team
- 1. [slack API token](api.slack.com)
+ 1. [Slack API token](api.slack.com)
+ 1. [Google reCAPTCHA keys](https://developers.google.com/recaptcha) 
  1. [Heroku](https://www.heroku.com/) account
  1. [`heroku-toolbelt`](https://toolbelt.heroku.com/)
  
@@ -35,10 +36,12 @@ heroku ps:scale web=1
 
 heroku config:add BOT_NAME=[insert name of the bot]
 heroku config:add BOT_ICON=[insert slack emoji code]
-heroku config:add SLACK_API_TOKEN=[insert api token]
+heroku config:add PRETTY_TEAM_NAME=[insert team name as you want it to appear]
 heroku config:add TEAM_NAME=[insert slack team name]
-heroku config:add CHANNEL_ID=[insert channel id] // channel where slack-butler will announce new users 
-heroku config:add RECAPTCHA_KEY=[insert recaptcha api token]
+heroku config:add SLACK_API_TOKEN=[insert slack api token]
+heroku config:add CHANNEL_ID=[insert channel id]
+heroku config:add RECAPTCHA_PRIVATE_KEY=[insert recaptcha private key]
+heroku config:add RECAPTCHA_PUBLIC_KEY=[insert recaptcha public key]
 
 git push heroku master
 ```
