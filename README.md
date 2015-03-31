@@ -6,8 +6,10 @@ Use Case
 [Slack](https://slack.com/) is a great tool for team communication, 
 but it has the potential to become an even better community building tool.
 Unfortunately, slack does not let new users sign up for a team right out 
-of the box, but slack-butler offers you the ability host your own hassel-free signup page.
-As is, the signup page uses [Google reCAPTCHA](https://www.google.com/recaptcha) to prevent spamming.
+of the box, but slack-butler offers you the ability host your own hassel-free 
+signup page with automated invitiations. As is, the signup page uses 
+[Google reCAPTCHA](https://www.google.com/recaptcha) to prevent spamming.
+slack-butler also checks if the registrant's username or email has already been taken.
 
 Inspiration
 ---
@@ -45,3 +47,7 @@ heroku config:add RECAPTCHA_PUBLIC_KEY=[insert recaptcha public key]
 
 git push heroku master
 ```
+
+Endorsements
+---
+[Folding@home](https://folding.stanford.edu): http://fah-slackbot.herokuapp.com
